@@ -1,0 +1,110 @@
+using System;
+namespace Sorting
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("BubbleSort");
+            Sorter ob = new BubbleSorter();
+            ob.DoSort();
+            Console.WriteLine("\nInsertionSort");
+            ob = new InsertionSorter();
+            ob.DoSort();
+            Console.WriteLine("\nSelectionSort");
+            ob = new SelectionSorter();
+            ob.DoSort();
+        }
+    }
+
+
+    abstract class Sorter
+    {
+        protected int N = 10;
+        protected int[] ar;
+        public void init()
+        {
+            Console.WriteLine("Initial Array:");
+            ar = new int[N];
+            Random r = new Random();
+            for (int i = 0; i < N; i++)
+                ar[i] = r.Next(1, 99);
+            for (int i = 0; i < N; i++)
+                Console.Write(ar[i] + " ");
+
+        }
+        public void output()
+        {            
+            for (int i = 0; i < N; i++)
+                Console.Write(ar[i] + " ");
+        }
+        public void DoSort() 
+        {
+            init();
+            Console.WriteLine();
+            for (int j = N - 1; j > 0; j--)
+                for (int i = 0; i < N - 1; i++)
+                    if (Order(i))
+                        Swap(i);
+            Console.WriteLine("Sorted Array:");
+            output();
+            Console.WriteLine();
+        }
+        protected abstract void Swap(int index);
+        protected abstract bool Order(int index);
+    }
+
+    class BubbleSorter : Sorter
+    {
+        protected override void Swap(int i)
+        {
+            int temp = ar[i];
+            ar[i] = ar[i + 1];
+            ar[i + 1] = temp;
+        }
+        protected override bool Order(int i)
+        {
+            return ar[i] > ar[i + 1];
+        }        
+       
+    }
+
+    class InsertionSorter : Sorter
+    {
+        protected override void Swap(int index)
+        {
+            int temp = ar[index];
+            ar[index] = ar[index + 1];
+            ar[index + 1] = temp;
+        }
+
+        protected override bool Order(int index)
+        {
+            return ar[index] > ar[index + 1];
+        }
+
+    }
+
+
+    class SelectionSorter : Sorter
+    {
+        protected override void Swap(int index)
+        {
+            int minIndex = index;
+            for (int i = index + 1; i < N; i++)
+            {
+                if (ar[i] < ar[minIndex])
+                    minIndex = i;
+            }
+            int temp = ar[minIndex];
+            ar[minIndex] = ar[index];
+            ar[index] = temp;
+        }
+
+        protected override bool Order(int index)
+        {
+            return ar[index] > ar[index + 1];
+        }
+    }
+
+}
